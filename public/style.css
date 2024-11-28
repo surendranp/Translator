@@ -1,3 +1,4 @@
+/* General body styling */
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f9;
@@ -26,23 +27,43 @@ button:hover {
   background-color: #0056b3;
 }
 
-.hidden {
-  display: none;
+/* Overlay styling */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dim the background */
+  z-index: 999; /* Ensure it's on top */
+  display: none; /* Hidden by default */
+  justify-content: center;
+  align-items: center;
 }
 
+/* Blur effect for background */
+body.blur {
+
+  pointer-events: none; /* Disable interactions */
+}
+
+/* Spinner styling */
 #spinner {
   width: 50px;
   height: 50px;
   border: 5px solid #f3f3f3;
   border-top: 5px solid #007bff;
   border-radius: 50%;
-  margin: 10px auto;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.hidden {
+  display: none;
 }
 
 ul#history {
@@ -53,17 +74,21 @@ ul#history li {
   margin-bottom: 10px;
 }
 
-@media (max-width: 767px) {
-  .container {
-      width: 100%;
-      padding: 10px;
+/* Responsive history column */
+@media (max-width: 768px) {
+  .container .row {
+    flex-direction: column;
   }
 
-  #inputText, #outputText {
-      height: 150px; /* Adjusting height for mobile */
+  .col-md-6 {
+    width: 100%;
+    margin-bottom: 20px;
   }
+}
 
-  #translateBtn, #clearBtn {
-      font-size: 1rem; /* Ensuring buttons remain readable on small screens */
-  }
+/* Word counter styling */
+p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555;
 }

@@ -2,9 +2,22 @@ const inputText = document.getElementById("inputText");
 const targetLang = document.getElementById("targetLang");
 const translateBtn = document.getElementById("translateBtn");
 const outputText = document.getElementById("outputText");
-const spinner = document.getElementById("spinner");
+const overlay = document.getElementById("overlay");
 const historyList = document.getElementById("history");
 const clearBtn = document.getElementById("clearBtn");
+
+// Add dynamic word counter
+const wordCounter = document.createElement("p");
+wordCounter.style.textAlign = "right";
+wordCounter.style.fontSize = "0.9rem";
+wordCounter.style.marginTop = "-10px";
+inputText.parentNode.insertBefore(wordCounter, inputText.nextSibling);
+
+// Update word count dynamically
+inputText.addEventListener("input", () => {
+  const wordCount = inputText.value.trim().split(/\s+/).filter(Boolean).length;
+  wordCounter.textContent = `Word Count: ${wordCount}`;
+});
 
 // Handle translation
 translateBtn.addEventListener("click", async () => {
@@ -16,7 +29,9 @@ translateBtn.addEventListener("click", async () => {
     return;
   }
 
-  spinner.classList.remove("hidden");
+  // Show spinner and overlay
+  overlay.style.display = "flex";
+  document.body.classList.add("blur");
 
   try {
     // Send text and target language to the `/translate` endpoint
@@ -39,19 +54,21 @@ translateBtn.addEventListener("click", async () => {
 
     // Populate output text area and save to history
     outputText.value = data.translatedText;
-    saveToHistory(text, data.translatedText, data.detectedLang, target);
+    saveToHistory(text, data.translatedText, target);
   } catch (error) {
     alert("Error: Could not translate text. Please try again later.");
     console.error(error);
   } finally {
-    spinner.classList.add("hidden");
+    // Hide spinner and overlay
+    overlay.style.display = "none";
+    document.body.classList.remove("blur");
   }
 });
 
 // Save translation to history
-function saveToHistory(input, output, sourceLang, targetLang) {
+function saveToHistory(input, output, targetLang) {
   const historyItem = document.createElement("li");
-  historyItem.textContent = `From (${sourceLang}) to (${targetLang}): ${input} -> ${output}`;
+  historyItem.textContent = `To (${targetLang}): ${input} -> ${output}`;
   historyList.appendChild(historyItem);
 }
 
@@ -60,4 +77,5 @@ clearBtn.addEventListener("click", () => {
   inputText.value = "";
   outputText.value = "";
   historyList.innerHTML = ""; // Clear the history list
+  wordCounter.textContent = "Word Count: 0"; // Reset word counter
 });

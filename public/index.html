@@ -8,6 +8,11 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Overlay with Spinner -->
+  <div id="overlay">
+    <div id="spinner"></div>
+  </div>
+
   <div class="container py-5">
     <div class="row">
       <!-- Left Column: Language Translator -->
@@ -15,9 +20,9 @@
         <h1 class="mb-4">Language Translator</h1>
 
         <div class="mb-3">
-          <textarea id="inputText" class="form-control" placeholder="Enter text to translate"></textarea>
+          <textarea id="inputText" class="form-control pb-5" placeholder="Enter text to translate"></textarea>
         </div>
-        
+
         <div class="mb-3">
           <select id="targetLang" class="form-select">
             <option value="es">Spanish</option>
@@ -33,18 +38,16 @@
             <option value="ta">Tamil</option>
           </select>
         </div>
-        
+
         <button id="translateBtn" class="btn btn-primary mb-3">Translate</button>
-        
-        <div id="spinner" class="hidden text-center"></div>
-        
+
         <div class="mb-3">
-          <textarea id="outputText" class="form-control" placeholder="Translated text" readonly></textarea>
+          <textarea id="outputText" class="form-control pb-5" placeholder="Translated text" readonly></textarea>
         </div>
 
         <button id="clearBtn" class="btn btn-secondary">Clear</button>
       </div>
-      
+
       <!-- Right Column: Translation History -->
       <div class="col-md-6">
         <h2 class="mb-4">Translation History</h2>
@@ -55,7 +58,6 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2/dist/tesseract.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
