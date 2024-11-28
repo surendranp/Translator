@@ -5,6 +5,7 @@ const outputText = document.getElementById("outputText");
 const overlay = document.getElementById("overlay");
 const historyList = document.getElementById("history");
 const clearBtn = document.getElementById("clearBtn");
+const wordLimit = 250; // Set word limit to 250
 
 // Add dynamic word counter
 const wordCounter = document.createElement("p");
@@ -17,12 +18,27 @@ inputText.parentNode.insertBefore(wordCounter, inputText.nextSibling);
 inputText.addEventListener("input", () => {
   const wordCount = inputText.value.trim().split(/\s+/).filter(Boolean).length;
   wordCounter.textContent = `Word Count: ${wordCount}`;
+
+  // Show warning if word count exceeds the limit
+  if (wordCount > wordLimit) {
+    wordCounter.style.color = "red";
+    wordCounter.textContent = `Word Count: ${wordCount} (Limit: ${wordLimit} words) - Please shorten your text.`;
+  } else {
+    wordCounter.style.color = "#555"; // Reset color if within limit
+  }
 });
 
 // Handle translation
 translateBtn.addEventListener("click", async () => {
   const text = inputText.value.trim();
   const target = targetLang.value;
+
+  // Check word limit before proceeding with translation
+  const wordCount = text.split(/\s+/).filter(Boolean).length;
+  if (wordCount > wordLimit) {
+    alert(`Please shorten your text. The word limit is ${wordLimit} words.`);
+    return; // Stop the translation if word count exceeds the limit
+  }
 
   if (!text) {
     alert("Please enter text to translate.");

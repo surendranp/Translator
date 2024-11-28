@@ -4,19 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Language Translator</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="icon" type="image/png" sizes="16x16" href="./images/logo-1.png">
 </head>
 <body>
+  <!-- Sticky Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-transparent fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><img src="./images/logo-Black.png" width="60" height="60" alt="texthumanizer.com"></a>
+        <!-- <button class="navbar-toggler" >
+        </button> -->
+        <span class="navbar-toggler-icon navbar-toggler"type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"></span>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto ">
+                <li class="nav-item">
+                    <a class="nav-link  " href="https://texthumanize.com/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  " href="https://texthumanize.com/texthumanizer.html">Text Humanizer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://texthumanize.com/tts.html">Text to speech</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="https://language-translate-production.up.railway.app/">Translator</a>
+                </li>
+                <li class="nav-item">
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
   <!-- Overlay with Spinner -->
   <div id="overlay">
     <div id="spinner"></div>
   </div>
 
-  <div class="container py-5">
-    <div class="row">
+  <div class="container d-flex align-content-center text-center justify-content-center">
+    <div class="row  w-75">
       <!-- Left Column: Language Translator -->
-      <div class="col-md-6">
+      <div class="col-md-6 col-lg-8">
         <h1 class="mb-4">Language Translator</h1>
 
         <div class="mb-3">
@@ -49,7 +80,7 @@
       </div>
 
       <!-- Right Column: Translation History -->
-      <div class="col-md-6">
+      <div class="col-md-6 col-lg-4">
         <h2 class="mb-4">Translation History</h2>
         <ul id="history" class="list-group">
           <!-- History items will go here -->
@@ -58,6 +89,9 @@
     </div>
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
+  <script src="jquery.js"></script>
 </body>
 </html>
