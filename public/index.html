@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Language Translator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row">
+      <!-- Left Column: Language Translator -->
+      <div class="col-md-6">
+        <h1 class="mb-4">Language Translator</h1>
+
+        <div class="mb-3">
+          <textarea id="inputText" class="form-control" placeholder="Enter text to translate"></textarea>
+        </div>
+        
+        <div class="mb-3">
+          <select id="targetLang" class="form-select">
+            <option value="es">Spanish</option>
+            <option value="en">English</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="hi">Hindi</option>
+            <option value="zh">Chinese</option>
+            <option value="ar">Arabic</option>
+            <option value="ru">Russian</option>
+            <option value="it">Italian</option>
+            <option value="ja">Japanese</option>
+            <option value="ta">Tamil</option>
+          </select>
+        </div>
+        
+        <button id="translateBtn" class="btn btn-primary mb-3">Translate</button>
+        
+        <div id="spinner" class="hidden text-center"></div>
+        
+        <div class="mb-3">
+          <textarea id="outputText" class="form-control" placeholder="Translated text" readonly></textarea>
+        </div>
+
+        <button id="clearBtn" class="btn btn-secondary">Clear</button>
+      </div>
+      
+      <!-- Right Column: Translation History -->
+      <div class="col-md-6">
+        <h2 class="mb-4">Translation History</h2>
+        <ul id="history" class="list-group">
+          <!-- History items will go here -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2/dist/tesseract.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+}
+
+.container {
+  max-width: 1200px;
+}
+
+textarea, select, button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.hidden {
+  display: none;
+}
+
+#spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #007bff;
+  border-radius: 50%;
+  margin: 10px auto;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+ul#history {
+  padding: 0;
+}
+
+ul#history li {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 767px) {
+  .container {
+      width: 100%;
+      padding: 10px;
+  }
+
+  #inputText, #outputText {
+      height: 150px; /* Adjusting height for mobile */
+  }
+
+  #translateBtn, #clearBtn {
+      font-size: 1rem; /* Ensuring buttons remain readable on small screens */
+  }
+}
