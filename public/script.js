@@ -1,8 +1,13 @@
+// Speech recognition setup
+const micButton = document.getElementById("micButton"); // Fixed the ID reference
+const speechStatus = document.getElementById("speechStatus"); // Speech recognition status
+
+// Input text and related elements
 const inputText = document.getElementById("inputText");
 const targetLang = document.getElementById("targetLang");
 const translateBtn = document.getElementById("translateBtn");
 const outputText = document.getElementById("outputText");
-const overlay = document.getElementById("overlay");
+const overlay = document.getElementById("overlay"); // Overlay for spinner
 const historyList = document.getElementById("history");
 const clearBtn = document.getElementById("clearBtn");
 const wordLimit = 250; // Set word limit to 250
@@ -35,6 +40,42 @@ inputText.addEventListener("input", () => {
   }
 });
 
+// Speech recognition initialization
+let recognition;
+if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.lang = "en-US"; // Set the default recognition language
+  recognition.interimResults = false;
+
+  micButton.addEventListener("click", () => {
+    recognition.start();
+    speechStatus.textContent = "Speak now...";
+    micButton.classList.add("active"); // Optional visual feedback
+  });
+
+  recognition.onresult = (event) => {
+    const speechResult = event.results[0][0].transcript; // Get recognized text
+    inputText.value += (inputText.value ? " " : "") + speechResult; // Append to input box
+    speechStatus.textContent = "Speech added to input box.";
+    inputText.dispatchEvent(new Event("input")); // Trigger word count update
+  };
+
+  recognition.onspeechend = () => {
+    recognition.stop();
+    micButton.classList.remove("active");
+  };
+
+  recognition.onerror = (event) => {
+    speechStatus.textContent = `Error: ${event.error}`;
+    recognition.stop();
+    micButton.classList.remove("active");
+  };
+} else {
+  micButton.style.display = "none"; // Hide mic button if Speech Recognition isn't supported
+  speechStatus.textContent = "Speech recognition not supported in this browser.";
+}
+
 // Handle translation
 translateBtn.addEventListener("click", async () => {
   const text = inputText.value.trim();
@@ -52,11 +93,11 @@ translateBtn.addEventListener("click", async () => {
     return;
   }
 
-  // Show spinner and overlay
-  overlay.style.display = "flex";
-  document.body.classList.add("blur");
-
   try {
+    // Show overlay and spinner during the translation process
+    overlay.style.display = "flex";
+    document.body.classList.add("blur"); // Prevent interaction during translation
+
     // Step 1: Detect the language of the input text
     const detectResponse = await fetch("/detect-language", {
       method: "POST",
@@ -71,7 +112,9 @@ translateBtn.addEventListener("click", async () => {
     }
 
     // Display the detected language name below the input text
-    detectedLangLabel.textContent = detectData.language ? `Detected Language: ${detectData.language}` : "Could not detect language";
+    detectedLangLabel.textContent = detectData.language
+      ? `Detected Language: ${detectData.language}`
+      : "Could not detect language";
 
     // Step 2: Translate the text
     const response = await fetch("/translate", {
@@ -98,9 +141,9 @@ translateBtn.addEventListener("click", async () => {
     alert("Error: Could not detect language or translate text. Please try again later.");
     console.error(error);
   } finally {
-    // Hide spinner and overlay
+    // Hide overlay and spinner after translation process is complete
     overlay.style.display = "none";
-    document.body.classList.remove("blur");
+    document.body.classList.remove("blur"); // Re-enable interactions
   }
 });
 

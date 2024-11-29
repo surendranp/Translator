@@ -187,3 +187,43 @@ p {
   font-size: 0.85rem;
   color: #555;
 }
+
+/* Mic button styling */
+.mic-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #48cae4;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.mic-icon:hover {
+  background-color: #0077b6;
+}
+
+.mic-icon.active {
+  background-color: red;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
