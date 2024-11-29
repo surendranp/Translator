@@ -18,24 +18,49 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.json());
 
-// Helper function to chunk text
-function chunkText(text, maxTokens) {
-  const words = text.split(/\s+/);
+// Function to chunk text into smaller parts (max 500 characters each)
+function chunkText(text, chunkSize = 500) {
   const chunks = [];
-  let chunk = "";
-
-  for (const word of words) {
-    if ((chunk + word).length <= maxTokens) {
-      chunk += `${word} `;
-    } else {
-      chunks.push(chunk.trim());
-      chunk = `${word} `;
-    }
+  for (let i = 0; i < text.length; i += chunkSize) {
+    chunks.push(text.slice(i, i + chunkSize));
   }
-
-  if (chunk.trim()) chunks.push(chunk.trim());
   return chunks;
 }
+
+// Language detection endpoint
+app.post("/detect-language", async (req, res) => {
+  const { text } = req.body;
+
+  if (!text) {
+    return res.status(400).json({ error: "Text is required for language detection." });
+  }
+
+  try {
+    const prompt = `Please detect the language of the following text: "${text}"`;
+
+    // Make request to OpenAI API for language detection
+    const response = await axios.post(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0.5,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
+        },
+      }
+    );
+
+    const language = response.data.choices[0].message.content.trim();
+    res.json({ language });
+  } catch (error) {
+    console.error("Language detection error:", error.message);
+    res.status(500).json({ error: "Could not detect language. Please try again later." });
+  }
+});
 
 // Translation API endpoint
 app.post("/translate", async (req, res) => {

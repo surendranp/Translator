@@ -7,12 +7,19 @@ const historyList = document.getElementById("history");
 const clearBtn = document.getElementById("clearBtn");
 const wordLimit = 250; // Set word limit to 250
 
-// Add dynamic word counter
+const detectedLangLabel = document.createElement("p");
+detectedLangLabel.style.fontSize = "0.9rem";
+detectedLangLabel.style.color = "#555";
+detectedLangLabel.style.marginTop = "0"; // Reset any negative margin
+
 const wordCounter = document.createElement("p");
 wordCounter.style.textAlign = "right";
 wordCounter.style.fontSize = "0.9rem";
-wordCounter.style.marginTop = "-10px";
+wordCounter.style.marginTop = "5px"; // Adjust the margin for better spacing
+
+// Insert word counter and detected language label as block elements
 inputText.parentNode.insertBefore(wordCounter, inputText.nextSibling);
+inputText.parentNode.insertBefore(detectedLangLabel, wordCounter.nextSibling); // Place language below the word counter
 
 // Update word count dynamically
 inputText.addEventListener("input", () => {
@@ -50,7 +57,23 @@ translateBtn.addEventListener("click", async () => {
   document.body.classList.add("blur");
 
   try {
-    // Send text and target language to the `/translate` endpoint
+    // Step 1: Detect the language of the input text
+    const detectResponse = await fetch("/detect-language", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
+
+    const detectData = await detectResponse.json();
+    if (detectData.error) {
+      alert(detectData.error);
+      return;
+    }
+
+    // Display the detected language name below the input text
+    detectedLangLabel.textContent = detectData.language ? `Detected Language: ${detectData.language}` : "Could not detect language";
+
+    // Step 2: Translate the text
     const response = await fetch("/translate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -72,7 +95,7 @@ translateBtn.addEventListener("click", async () => {
     outputText.value = data.translatedText;
     saveToHistory(text, data.translatedText, target);
   } catch (error) {
-    alert("Error: Could not translate text. Please try again later.");
+    alert("Error: Could not detect language or translate text. Please try again later.");
     console.error(error);
   } finally {
     // Hide spinner and overlay
