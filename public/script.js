@@ -40,6 +40,15 @@ inputText.addEventListener("input", () => {
   }
 });
 
+// Get user media (microphone) access
+navigator.mediaDevices.getUserMedia({ audio: true })
+  .then(stream => {
+    console.log('Microphone access granted');
+  })
+  .catch(err => {
+    console.error('Microphone access denied', err);
+  });
+
 // Speech recognition initialization
 let recognition;
 if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
